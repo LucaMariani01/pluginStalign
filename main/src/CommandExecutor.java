@@ -10,20 +10,16 @@ public class CommandExecutor {
         ArrayList<String> comando = new ArrayList<>();
         comando.add("java");
         comando.add("-jar");
-        //comando.add("/Users/diego/Downloads/STAlign-main/STAlign-main/download/STAlign.jar");
-        //comando.add("/Users/filipporeucci/Desktop/STAlign-main/download/STAlign.jar"); //TODO CAMBIARE PATH
         comando.add(stalignPath+"/STAlign.jar");
         comando.add("-edm");
-        //comando.add("/Users/filipporeucci/Desktop/STAlign-main/examples/aas2/"+file1); //TODO CAMBIARE PATH
         comando.add(aasFilesPath+"/"+file1);
         return comando;
     }
 
     public void execCommand(String file2, File distanceFile, String aasFilesPath, String stalignPath){
         ArrayList<String> comando = commandBuilder(aasFilesPath, stalignPath);
-        String distanceValue = "", linea = "";
+        String distanceValue = "", linea;
 
-        //comando.add("/Users/filipporeucci/Desktop/STAlign-main/examples/aas2/"+file2); //TODO CAMBIARE PATH
         comando.add(aasFilesPath+"/"+file2);
         ProcessBuilder processBuilder = new ProcessBuilder(comando);
 
@@ -33,7 +29,6 @@ public class CommandExecutor {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream)); // Leggi l'output usando un BufferedReader
 
             while ((linea = reader.readLine()) != null) {
-                System.out.println(linea);
                 if (linea.contains("Distance")) {
                     String[] parts = linea.split("=");
                     if (parts.length == 2)
@@ -43,14 +38,14 @@ public class CommandExecutor {
 
             try {
                 FileWriter writer = new FileWriter(distanceFile, true); //writing distance
-                writer.write(this.file1+"\t"+file2+"\t"+distanceValue+"\n");
+                writer.write(this.file1.replace(".aas","")+"\t"+file2.replace(".aas","")+"\t"+distanceValue+"\n");
                 writer.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             processo1.waitFor(); // Attendere il completamento del processo (se necessario)
         } catch (Exception e) {
-            System.out.println("Errore durante l'esecuzione del comando "+e);
+            System.out.println("Something went wrong during commands execution");
         }
     }
 }
