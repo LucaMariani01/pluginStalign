@@ -6,16 +6,14 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        //String aasFilesPath = "/Users/filipporeucci/Desktop/aas1"; //TODO CAMBIARE PATH
-        //String stalignPath = "/Users/filipporeucci/Desktop/STAlign-main/download";
         String distanceFileName = "StalignDistance.csv";
         ArrayList<String> filesToBeAnalyze = new ArrayList<>(); //aas files to be analyzed
         Options options = new Options();
 
-        Option aasFiles = new Option("a", "aas", false, "AAS files directory");
+        Option aasFiles = new Option("a", "aas", true, "AAS files directory");
         options.addOption(aasFiles);
 
-        Option stalignOption = new Option("s", "stalign", false, "Stalign jar directory");
+        Option stalignOption = new Option("s", "stalign", true, "Stalign jar directory");
         options.addOption(stalignOption);
 
         Option helpOption = new Option("h", "help", false, "Show help");
@@ -29,8 +27,8 @@ public class Main {
                 formatter.printHelp("CommandLineExample", options);
             } else {
                 if (cmd.hasOption("a") && cmd.hasOption("s")) {
-                    String stalignPath = cmd.getOptionValue("s");
                     String aasFilesPath = cmd.getOptionValue("a");
+                    String stalignPath = cmd.getOptionValue("s");
 
                     File pathInputDirectory = new File(aasFilesPath);
                     File distanceFile = new File(aasFilesPath+"/"+distanceFileName);
@@ -41,6 +39,7 @@ public class Main {
                         return;
                     }
 
+                    System.out.println("Scanning directory...");
                     for (File file : listOfFiles) {
                         if (file.getName().compareTo(distanceFileName) == 0) { //if distance file already exists it will be deleted
                             try {
@@ -54,9 +53,7 @@ public class Main {
                         FileWriter writer = new FileWriter(distanceFile, true); //writing heading
                         writer.write("Id1\tId2\tDistance\n");
                         writer.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    } catch (IOException e) { throw new RuntimeException(e); }
 
                     for (File file : listOfFiles) {
                         if(file.getName().contains(".aas")) {
@@ -68,8 +65,6 @@ public class Main {
                     }
                 } else System.out.println("ERROR: use -h to view the help.");
             }
-        } catch (Exception e) {
-            System.err.println("ERROR while parsing options: "+e.getMessage());
-        }
+        } catch (Exception e) { System.err.println("ERROR while parsing options: "+e); }
     }
 }

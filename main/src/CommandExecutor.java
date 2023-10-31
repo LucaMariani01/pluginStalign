@@ -40,12 +40,8 @@ public class CommandExecutor {
                 FileWriter writer = new FileWriter(distanceFile, true); //writing distance
                 writer.write(this.file1.replace(".aas","")+"\t"+file2.replace(".aas","")+"\t"+distanceValue+"\n");
                 writer.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            processo1.waitFor(); // Attendere il completamento del processo (se necessario)
-        } catch (Exception e) {
-            System.out.println("Something went wrong during commands execution");
-        }
+            } catch (IOException e) { throw new RuntimeException(e); }
+            processo1.waitFor();
+        } catch (Exception e) { System.out.println("Something went wrong during commands execution"); }
     }
 }
