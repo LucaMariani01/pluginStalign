@@ -38,7 +38,7 @@ public class CommandExecutor {
 
             try {
                 FileWriter writer = new FileWriter(distanceFile, true); //writing distance
-                writer.write(this.file1.replace(".aas","")+"\t"+file2.replace(".aas","")+"\t"+distanceValue+"\n");
+                writer.write(this.file1.replace(".aas","")+";"+file2.replace(".aas","")+";"+distanceValue+"\n");
                 writer.close();
             } catch (IOException e) { throw new RuntimeException(e); }
             processo1.waitFor();

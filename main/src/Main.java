@@ -51,7 +51,7 @@ public class Main {
 
                     try {
                         FileWriter writer = new FileWriter(distanceFile, true); //writing heading
-                        writer.write("Id1\tId2\tDistance\n");
+                        writer.write("Id1"+";"+"Id2"+";"+"Distance\n");
                         writer.close();
                     } catch (IOException e) { throw new RuntimeException(e); }
 
